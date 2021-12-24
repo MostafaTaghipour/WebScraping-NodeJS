@@ -1,15 +1,43 @@
 const puppeteer = require("puppeteer");
 const StaticMaps = require("staticmaps");
 const express = require("express");
+const absolutify = require("absolutify");
+
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+
 /**
- * IMDB 
+ * Proxy
+ * fore example: http://localhost:3000/proxy?url=developer.android.com
+ */
+app.get("/proxy", async (req, res) => {
+  const { url } = req.query;
+
+  if (!url) {
+    return res.send("No url provided");
+  } else {
+    try {
+      const browser = await puppeteer.launch();
+      const page = await browser.newPage();
+      await page.goto(`https://${url}`);
+
+      let document = await page.evaluate(() => document.documentElement.outerHTML);
+      document = absolutify(document, `/proxy?url=${url.split("/")[0]}`);
+
+      return res.send(document);
+    } catch (error) {
+      return res.send(document);
+    }
+  }
+});
+
+/**
+ * IMDB
  * for example : http://localhost:3000/movie/tt0111161
  */
 app.get("/movie/:id", async (req, res) => {
@@ -46,9 +74,8 @@ app.get("/movie/:id", async (req, res) => {
   res.json(data);
 });
 
-
 /**
- * Live Score 
+ * Live Score
  * for example: http://localhost:3000/league/football/italy/serie-a
  */
 app.get("/league/:sport/:country/:league", async (req, res) => {
@@ -98,8 +125,6 @@ app.get("/league/:sport/:country/:league", async (req, res) => {
   res.json(data);
 });
 
-
-
 /**
  * Static Map
  * http://localhost:3000/map/51.3890/35.6892?zoom=11&width=800&height=500
@@ -107,7 +132,7 @@ app.get("/league/:sport/:country/:league", async (req, res) => {
 app.get("/map/:lat/:lng", async (req, res) => {
   const { lat, lng } = req.params;
 
-  const { width = 600, height = 400 , zoom = 13 } = req.query;
+  const { width = 600, height = 400, zoom = 13 } = req.query;
 
   const options = { width: +width, height: +height };
   const center = [+lat, +lng];

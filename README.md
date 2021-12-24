@@ -39,3 +39,7 @@ Open [http://localhost:3000](http://localhost:3000) and take a look around.
 #### Static Maps Example
 
 `http://localhost:3000/map/51.3890/35.6892?zoom=11&width=800&height=500`
+
+#### Proxy Example
+
+`http://localhost:3000/proxy?url=developer.android.com`
