@@ -1,17 +1,13 @@
 const StaticMaps = require("staticmaps");
 const express = require("express");
 const absolutify = require("absolutify");
-/**
- * To deploy puppeteer use below link
- * https://stackoverflow.com/a/67596057
- */
- const puppeteer = require("puppeteer");
+const puppeteer = require("puppeteer");
 
 const app = express();
 const port = process.env.PORT || 3000
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("Hello Web Scraping!");
 });
 
 
