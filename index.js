@@ -1,7 +1,11 @@
-const puppeteer = require("puppeteer");
 const StaticMaps = require("staticmaps");
 const express = require("express");
 const absolutify = require("absolutify");
+/**
+ * To deploy puppeteer use below link
+ * https://stackoverflow.com/a/67596057
+ */
+ const puppeteer = require("puppeteer");
 
 const app = express();
 const port = process.env.PORT || 3000
@@ -22,7 +26,9 @@ app.get("/proxy", async (req, res) => {
     return res.send("No url provided");
   } else {
     try {
-      const browser = await puppeteer.launch();
+      const browser = await puppeteer.launch({
+        args: ["--no-sandbox", "--disable-setuid-sandbox"]
+      });
       const page = await browser.newPage();
       await page.goto(`https://${url}`);
 
@@ -45,7 +51,9 @@ app.get("/movie/:id", async (req, res) => {
   const IMDB_URL = `https://www.imdb.com/title/${id}/`;
 
   /* Initiate the Puppeteer browser */
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    args: ["--no-sandbox", "--disable-setuid-sandbox"]
+  });
   const page = await browser.newPage();
   /* Go to the IMDB Movie page and wait for it to load */
   await page.goto(IMDB_URL, { waitUntil: "networkidle0" });
@@ -84,7 +92,9 @@ app.get("/league/:sport/:country/:league", async (req, res) => {
   const URL = `https://www.livescore.com/en/${sport}/${country}/${league}/table/`;
 
   /* Initiate the Puppeteer browser */
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    args: ["--no-sandbox", "--disable-setuid-sandbox"]
+  });
   const page = await browser.newPage();
   /* Go to the IMDB Movie page and wait for it to load */
   await page.goto(URL, { waitUntil: "networkidle0" });
