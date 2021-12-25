@@ -27,19 +27,19 @@ Open [http://localhost:3000](http://localhost:3000) and take a look around.
 
 #### IMDB Example
 
-`http://localhost:3000/movie/tt0111161`
+`http://localhost:3000/samples/movie/tt0111161`
 
 #### Live Score Example
 
-`http://localhost:3000/league/football/italy/serie-a`
+`http://localhost:3000/samples/league/football/italy/serie-a`
 
 #### Static Maps Example
 
-`http://localhost:3000/map/51.3890/35.6892?zoom=11&width=800&height=500`
+`http://localhost:3000/samples/map/51.3890/35.6892?zoom=11&width=800&height=500`
 
 #### Proxy Example
 
-`http://localhost:3000/proxy?url=developer.android.com`
+`http://localhost:3000/samples/proxy?url=developer.android.com`
 
 ## Deployment
 
